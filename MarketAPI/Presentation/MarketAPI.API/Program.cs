@@ -1,3 +1,4 @@
+using MarketAPI.Infrastructure;
 using MarketAPI.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ namespace MarketAPI.API
             builder.Services.AddPersistenceService();
            builder.Services.AddCors(options=>options.AddDefaultPolicy(policy=>policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod()
            ));
+            builder.Services.AddInfraStructureService(builder.Configuration);
 
             var app = builder.Build();
 

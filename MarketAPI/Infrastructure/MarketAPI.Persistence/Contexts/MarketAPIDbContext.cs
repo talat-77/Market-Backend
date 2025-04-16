@@ -17,6 +17,7 @@ namespace MarketAPI.Persistence.Contexts
         public DbSet<Product> Productss { get; set; }
         public DbSet<Order> Orderss { get; set; }
         public DbSet<Customer> Customerss { get; set; }
+        public DbSet<FileInfoo> FileInfos { get; set; }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
