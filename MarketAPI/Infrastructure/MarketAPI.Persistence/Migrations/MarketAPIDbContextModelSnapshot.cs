@@ -43,6 +43,31 @@ namespace MarketAPI.Persistence.Migrations
                     b.ToTable("Customerss");
                 });
 
+            modelBuilder.Entity("MarketAPI.Domain.Entities.FileInfoo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileInfos");
+                });
+
             modelBuilder.Entity("MarketAPI.Domain.Entities.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -81,6 +106,10 @@ namespace MarketAPI.Persistence.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()

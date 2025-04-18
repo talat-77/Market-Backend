@@ -85,11 +85,16 @@ namespace MarketAPI.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Create_Product_VM model)
         {
+            if (string.IsNullOrEmpty(model.ImageUrl))
+            {
+                return BadRequest(new { Message = "Görsel URL'si gereklidir." });
+            }
             await _productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,
                 Price = model.Price,
-                Stock = model.Stock
+                Stock = model.Stock ,
+                ImageUrl = model.ImageUrl
             });
             await _productWriteRepository.SaveAsync();
             return Ok();

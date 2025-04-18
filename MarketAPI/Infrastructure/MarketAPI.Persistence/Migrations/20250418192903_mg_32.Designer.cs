@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MarketAPI.Persistence.Migrations
 {
     [DbContext(typeof(MarketAPIDbContext))]
-    [Migration("20250413125846_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250418192903_mg_32")]
+    partial class mg_32
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,32 @@ namespace MarketAPI.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customerss");
+                });
+
+            modelBuilder.Entity("MarketAPI.Domain.Entities.FileInfoo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileInfos");
                 });
 
             modelBuilder.Entity("MarketAPI.Domain.Entities.Order", b =>
@@ -73,7 +98,7 @@ namespace MarketAPI.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orderss");
                 });
 
             modelBuilder.Entity("MarketAPI.Domain.Entities.Product", b =>
@@ -84,6 +109,10 @@ namespace MarketAPI.Persistence.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -100,7 +129,7 @@ namespace MarketAPI.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Productss");
                 });
 
             modelBuilder.Entity("OrderProduct", b =>
