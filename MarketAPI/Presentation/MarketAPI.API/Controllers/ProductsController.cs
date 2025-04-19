@@ -22,10 +22,10 @@ namespace MarketAPI.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] int page = 0, [FromQuery] int size = 5)
         {
-     
+
             var totalProductCount = await _productReadRepository.GetAll(false).CountAsync();
 
-     
+
             var products = await _productReadRepository.GetAll(false)
                                       .Skip(page * size)
                                       .Take(size)
@@ -99,7 +99,32 @@ namespace MarketAPI.API.Controllers
             await _productWriteRepository.SaveAsync();
             return Ok();
         }
-     
-    
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(string id,[FromBody] Update_Product_VM model)
+        {
+            var product = await _productReadRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound(new { Message = "Ürün bulunamadı." });
+            }
+
+            if (string.IsNullOrEmpty(model.ImageUrl))
+            {
+                return BadRequest(new { Message = "Görsel URL'si gereklidir." });
+            }
+
+            product.Name = model.Name;
+            product.Price = model.Price;
+            product.Stock = model.Stock;
+            product.ImageUrl = model.ImageUrl;
+
+            await _productWriteRepository.SaveAsync();
+
+            return Ok(new { Message = "Ürün başarıyla güncellendi." });
+        }
+
+
+
     }
 }
