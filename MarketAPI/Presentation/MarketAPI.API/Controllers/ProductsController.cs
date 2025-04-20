@@ -101,7 +101,7 @@ namespace MarketAPI.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id,[FromBody] Update_Product_VM model)
+        public async Task<IActionResult> Put(string id, [FromBody] Update_Product_VM model)
         {
             var product = await _productReadRepository.GetByIdAsync(id);
             if (product == null)
@@ -109,15 +109,19 @@ namespace MarketAPI.API.Controllers
                 return NotFound(new { Message = "Ürün bulunamadı." });
             }
 
-            if (string.IsNullOrEmpty(model.ImageUrl))
-            {
-                return BadRequest(new { Message = "Görsel URL'si gereklidir." });
-            }
+            // ImageUrl zorunlu değilse, kontrolü kaldırıyoruz
+            if (model.Name != null)
+                product.Name = model.Name;
+            if (model.Price != null)
+                product.Price = model.Price;
+            if (model.Stock != null)
+                product.Stock = model.Stock;
 
-            product.Name = model.Name;
-            product.Price = model.Price;
-            product.Stock = model.Stock;
-            product.ImageUrl = model.ImageUrl;
+            // ImageUrl boş ise, mevcut değeri koruyalım
+            if (!string.IsNullOrEmpty(model.ImageUrl))
+            {
+                product.ImageUrl = model.ImageUrl;
+            }
 
             await _productWriteRepository.SaveAsync();
 
