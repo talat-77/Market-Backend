@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using MarketAPI.Application.Abstractions.Storage;
 using MarketAPI.Infrastructure.FileStorage;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -15,6 +16,7 @@ namespace MarketAPI.Infrastructure
     {
         public static void AddInfraStructureService(this IServiceCollection services,IConfiguration configuration)
         {
+           
             services.AddScoped<IFileStorageService, AzureBlobStorageService>();
             services.AddSingleton(x =>
                new BlobContainerClient(

@@ -34,7 +34,9 @@ namespace MarketAPI.Persistence.Repositories
         public async Task<bool> AddRangeAsync(List<T> model)
         {
           await Table.AddRangeAsync();
+            SaveAsync();
             return true;
+            
         }
 
         public bool Remove(T model)
@@ -57,6 +59,7 @@ namespace MarketAPI.Persistence.Repositories
         public bool RemoveRange(List<T> model)
         {
            Table.RemoveRange(model);
+            SaveAsync() ;
             return true;
         }
 
