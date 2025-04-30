@@ -1,9 +1,7 @@
 ﻿using MarketAPI.Application.DTO.Customer;
 using MarketAPI.Application.Repositories.CustomerRepository;
 using MarketAPI.Domain.Entities;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MarketAPI.API.Controllers
@@ -30,7 +28,8 @@ namespace MarketAPI.API.Controllers
             {
                 Name = registerCustomerDto.Name,
                 Email = registerCustomerDto.Email,
-                Password = registerCustomerDto.Password
+                Password= registerCustomerDto.Password
+             
             };
             await _customerWriteRepository.AddAsync(customer);
             await _customerWriteRepository.SaveAsync();

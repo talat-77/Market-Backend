@@ -12,7 +12,12 @@ namespace MarketAPI.Persistence.Contexts
     public class MarketAPIDbContext : DbContext
     {
         public MarketAPIDbContext(DbContextOptions options) : base(options)
-        { }
+        {
+        }
+
+        protected MarketAPIDbContext()
+        {
+        }
 
         public DbSet<Product> Productss { get; set; }
         public DbSet<Order> Orderss { get; set; }

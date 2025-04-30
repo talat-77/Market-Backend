@@ -18,6 +18,7 @@ namespace MarketAPI.API
             builder.Services.AddSwaggerGen();
 
             // Persistence service'i ekliyoruz.
+            
             builder.Services.AddPersistenceService();
            builder.Services.AddCors(options=>options.AddDefaultPolicy(policy=>policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod()
            ));
