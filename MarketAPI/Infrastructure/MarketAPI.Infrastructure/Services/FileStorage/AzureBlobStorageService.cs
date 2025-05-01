@@ -1,7 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using MarketAPI.Application.Abstractions.Storage;
 using MarketAPI.Domain.Entities;
-using MarketAPI.Infrastructure.FileStorage.Configurations;
+using MarketAPI.Infrastructure.Services.FileStorage.InfraConfigurations;
 using MarketAPI.Persistence.Contexts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace MarketAPI.Infrastructure.FileStorage
+namespace MarketAPI.Infrastructure.Services.FileStorage
 {
 
     public class AzureBlobStorageService : IFileStorageService

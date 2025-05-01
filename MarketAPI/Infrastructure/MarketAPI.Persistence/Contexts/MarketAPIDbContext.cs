@@ -1,5 +1,6 @@
 ﻿using MarketAPI.Domain.Entities;
 using MarketAPI.Domain.Entities.Common;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MarketAPI.Persistence.Contexts
 {
-    public class MarketAPIDbContext : DbContext
+    public class MarketAPIDbContext : IdentityDbContext<User>
     {
         public MarketAPIDbContext(DbContextOptions options) : base(options)
         {

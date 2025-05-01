@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarketAPI.Infrastructure.FileStorage.Configurations
+namespace MarketAPI.Infrastructure.Services.FileStorage.InfraConfigurations
 {
     public class AzureBlobSettings
     {

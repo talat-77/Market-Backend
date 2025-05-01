@@ -21,14 +21,14 @@ namespace MarketAPI.API.Controllers
             
         }
         [HttpPost("createUser")]
-        public async Task<IActionResult> createUser([FromBody] RegisterCustomerDto registerCustomerDto)
+        public async Task<IActionResult> createUser([FromBody] RegisterUserDto registerCustomerDto)
         {
            
             var customer = new Customer
             {
                 Name = registerCustomerDto.Name,
-                Email = registerCustomerDto.Email,
-                Password= registerCustomerDto.Password
+               
+               
              
             };
             await _customerWriteRepository.AddAsync(customer);

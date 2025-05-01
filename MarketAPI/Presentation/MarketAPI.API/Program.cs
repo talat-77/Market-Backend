@@ -3,6 +3,9 @@ using MarketAPI.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace MarketAPI.API
 {
@@ -16,6 +19,22 @@ namespace MarketAPI.API
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAuthentication("Admin")
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new()
+                    {
+                        ValidateAudience= true,
+                        ValidateIssuer= true,   
+                        ValidateLifetime= true,
+                        ValidateIssuerSigningKey= true,
+
+                        ValidAudience = builder.Configuration["Token:Audience"],
+                        ValidIssuer= builder.Configuration["Token:Issuer"],
+                        IssuerSigningKey= new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:SecurityKey"]))
+                        
+                    };
+                });
 
             // Persistence service'i ekliyoruz.
             
@@ -36,7 +55,7 @@ namespace MarketAPI.API
             app.UseCors();
             // HTTPS yönlendirmesini eklemek için
             app.UseHttpsRedirection();
-
+            app.UseAuthentication();
             // Authorization'ý eklemek için
             app.UseAuthorization();
 
