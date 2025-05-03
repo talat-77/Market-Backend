@@ -1,4 +1,5 @@
-﻿using MarketAPI.Application.Abstractions.Token;
+﻿using Google.Apis.Auth;
+using MarketAPI.Application.Abstractions.Token;
 using MarketAPI.Application.DTO;
 using MarketAPI.Application.DTO.Customer;
 using MarketAPI.Application.DTO.User;
@@ -7,6 +8,7 @@ using MarketAPI.Infrastructure.Services.Token;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MarketAPI.API.Controllers
 {
@@ -67,7 +69,7 @@ namespace MarketAPI.API.Controllers
             if (result.Succeeded)
             {
                 
-               var token = _tokenHandler.CreateAccessToken(5);
+               var token = _tokenHandler.CreateAccessToken(5,user);
                 return Ok(new
                 {
                     token = token.AccessToken,
@@ -81,5 +83,56 @@ namespace MarketAPI.API.Controllers
             return Unauthorized("Invalid credentials");
         }
 
+        [HttpPost("google-login")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto model)
+        {
+            try
+            {
+                var payload = await GoogleJsonWebSignature.ValidateAsync(model.IdToken);
+
+                var user = await _userManager.FindByEmailAsync(payload.Email);
+
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        Email = payload.Email,
+                        UserName = payload.Email,
+                        Name = payload.GivenName,
+                        Surname = payload.FamilyName
+                    };
+
+                    var createResult = await _userManager.CreateAsync(user);
+                    if (!createResult.Succeeded)
+                    {
+                        return BadRequest(new { message = "Kullanıcı oluşturulamadı", errors = createResult.Errors });
+                    }
+                }
+
+                // Giriş başarılıysa token üret
+                var token = _tokenHandler.CreateAccessToken(5,user); 
+
+                return Ok(new
+                {
+                    token = token.AccessToken,
+                    expiration = token.Expiration,
+                    message = "Google ile giriş başarılı"
+                });
+            }
+            catch (InvalidJwtException ex)
+            {
+                return Unauthorized(new { message = "Geçersiz Google token", error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Sunucu hatası", error = ex.Message });
+            }
+        }
+
+
+
     }
+
+
 }
+

@@ -1,4 +1,5 @@
 ﻿using MarketAPI.Application.DTO;
+using MarketAPI.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace MarketAPI.Application.Abstractions.Token
 {
     public interface ITokenHandler
     {
-        DTO.Token CreateAccessToken(int minute);
+        DTO.Token CreateAccessToken(int minute,User user);
     }
 }
